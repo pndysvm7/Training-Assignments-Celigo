@@ -60,20 +60,28 @@ async.parallel(
                     }
 
                     // once the image is saved, we will compress it 
-                    //gzip takes base64 string as an argument and returns the compressed buffer
+                    //gzip takes bufferdata as an argument and returns the compressed buffer
 
+                    fs.readFile(`./images/${index}.jpg`, (err, imagebuffer) => {
+                        if (err) {
+                            console.log('error in reading saved images');
+                            throw err;
+                        }
+                        gzip(imagebuffer).then(compressedImage => {
 
-
-                    gzip(imagebase64string).then(compressedImage => {
-
-                        // saving the compressed images to our folder using base64 encoding, which is used for images
-                        fs.writeFile(`./compressedfolder${Math.floor(index / 5)}/${index}.zip`, compressedImage, 'base64', err => {
-                            callback(err, 'compressed file saved successfully')
+                            // saving the compressed images to our folder using base64 encoding, which is used for images
+                            fs.writeFile(`./compressedfolder${Math.floor(index / 5)}/${index}.jpg.zip`, compressedImage, 'base64', err => {
+                                callback(err, 'compressed file saved successfully')
+                            })
+                        }).catch(e => {
+                            console.log('image cant be compressed');
+                            throw e;
                         })
-                    }).catch(e => {
-                        console.log('image cant be compressed');
-                        throw e;
                     })
+
+
+
+
                 })
             })
 
