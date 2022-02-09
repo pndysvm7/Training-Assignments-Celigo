@@ -25,8 +25,11 @@ const urlArray = [
     "https://media.glassdoor.com/l/e9/c1/7a/84/independence-day-celebration.jpg"
 ]
 
-// initialising the folders to contain only 5 compressed images beacuse in asynchronous operation creating folders would take time and writing in the folders would return error
 
+// creating folder to store original images
+fs.mkdirSync(path.join(__dirname, 'images'))
+
+// initialising the folders to contain only 5 compressed images beacuse in asynchronous operation creating folders would take time and writing in the folders would return error
 for (let i = 0; i < urlArray.length; i++) {
     if (i === 0) {
         fs.mkdirSync(path.join(__dirname, `compressedfolder${Math.floor(i / 5)}`));   // initialising first folder
