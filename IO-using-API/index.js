@@ -178,7 +178,11 @@ var ftpImportConnectionOptions = {
         "type": "sftp",
         "hostURI": "celigo.files.com",
         "username": "shivam.pandey@celigo.com",
+<<<<<<< HEAD
         "password": "ftp password goes here",
+=======
+        "password": "here goes the password for my ftp",
+>>>>>>> refs/remotes/origin/master
         "port": 22,
         "usePassiveMode": true,
         "userDirectoryIsRoot": false,
