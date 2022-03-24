@@ -1,8 +1,8 @@
-// var async  = require('async');
-// var request = require('request');
+var async  = require('async');
+var request = require('request');
 
 
-let token_auth = 'Bearer e1fe580f161f43639e9776c5504ba685';
+let token_auth = 'Bearer 0d29c6b556c24549a7671538bd18fd5c';
 
 let connection_data = {
   "exportConnectionID": "",
@@ -12,6 +12,16 @@ let connection_data = {
   "integrationID" :"",
   "flowID" :""
 };
+
+let integrationInfo = {
+  "exportConnection" :"",
+  "importConnection" : "",
+  "export":"",
+  "import":"",
+  "integration":"",
+  "flow":"",
+
+}
 
 let githubData = {
   "name": "Github Export using NODEJS 1 Testing Testing",
@@ -232,7 +242,7 @@ var flowOptions = {
 
 
 
-exports.createGithubExportConnection = (options) => {
+const createGithubExportConnection = (options) => {
   options = githubExportConnectionOptions;
   return new Promise((resolve, reject) => {
     request(options , function (error, response) {
@@ -241,12 +251,13 @@ exports.createGithubExportConnection = (options) => {
       } 
       let data = JSON.parse(response.body);
       connection_data["exportConnectionID"] = data["_id"];
+      integrationInfo["exportConnection"] = data;
       resolve(data["_id"]);
     }) 
   })
 }
 
-exports.createFTPImportConnection = (options) => {
+const createFTPImportConnection = (options) => {
   options = ftpImportConnectionOptions;
   return new Promise((resolve, reject) => {
     request(options , function (error, response) {
@@ -255,13 +266,14 @@ exports.createFTPImportConnection = (options) => {
       } 
       let data = JSON.parse(response.body);
       connection_data["importConnectionID"] = data["_id"];
+      integrationInfo["importConnection"] = data;
       resolve(data["_id"]);
     }) 
   })
 
 }
 
-exports.createGithubExport = (options) => {
+const createGithubExport = (options) => {
   options = githubExportOptions;
 
   githubData["_connectionId"] = connection_data["exportConnectionID"];
@@ -277,6 +289,7 @@ exports.createGithubExport = (options) => {
       let data = JSON.parse(response.body);
       
       connection_data["exportID"] = data["_id"];
+      integrationInfo["export"] = data;
       resolve(data["_id"]);
   })
 
@@ -284,7 +297,7 @@ exports.createGithubExport = (options) => {
 
 }
 
-exports.createFTPImport = (options) => {
+const createFTPImport = (options) => {
   options = FTPImportOptions;
   ftpdata["_connectionId"] = connection_data["importConnectionID"];
 
@@ -297,13 +310,14 @@ exports.createFTPImport = (options) => {
       }
       let data = JSON.parse(response.body);
       connection_data["importID"] = data["_id"];
+      integrationInfo["import"] = data;
       resolve(data["_id"]);
   })
 
   })
 }
 
-exports.createIntegration = (options) => {
+const createIntegration = (options) => {
   options = createIntegrationOptions;
   integrationData["_registeredConnectionIds"] = [
     connection_data["exportID"],
@@ -320,6 +334,7 @@ exports.createIntegration = (options) => {
       }
       let data = JSON.parse(response.body);
       connection_data["integrationID"] = data["_id"];
+      integrationInfo["integration"] = data;
       resolve(data["_id"]);
   })
 
@@ -328,7 +343,7 @@ exports.createIntegration = (options) => {
 
 }
 
-exports.createFlow = (options) => {
+const createFlow = (options) => {
   options = flowOptions;
   flowData["_integrationId"] =  connection_data["integrationID"];
   flowData.pageProcessors[0]._importId = connection_data["importID"];
@@ -345,6 +360,7 @@ exports.createFlow = (options) => {
       }
       let data = JSON.parse(response.body);
       connection_data["flowID"] = data["_id"];
+      integrationInfo["flow"] = data;
       resolve(data["_id"]);
   })
 
@@ -352,6 +368,97 @@ exports.createFlow = (options) => {
 
 
 }
+
+exports.main = ()=> {
+
+  return new Promise((resolve, reject) => {
+
+
+    async.series([
+      function(callback){
+        createGithubExportConnection(githubExportConnectionOptions).then(res => {
+          console.log(`github export connection created with id ${res}`);
+          callback(null, res);
+        })
+        .catch(err => {
+          console.log(err);
+          callback(err,null);
+        })
+      },
+      function(callback){
+        createFTPImportConnection(ftpImportConnectionOptions).then(res => {
+          console.log(`FTP IMPORT connection created with id ${res}`);
+          callback(null, res);
+        })
+        .catch(err => {
+          console.log(err);
+          callback(err,null);
+        })
+      },
+      function(callback){
+        createGithubExport(githubExportOptions).then(res => {
+          console.log(`github export created with id ${res}`);
+          callback(null, res);
+        })
+        .catch(err => {
+          console.log(err);
+          callback(err,null);
+        })
+      },
+      function(callback){
+        createFTPImport(FTPImportOptions).then(res => {
+          console.log(`FTP IMPORT created with id ${res}`);
+          callback(null, res);
+        })
+        .catch(err => {
+          console.log(err);
+          callback(err,null);
+        })
+      },
+      function(callback){
+        createIntegration(createIntegrationOptions).then(res => {
+          console.log(`New Integration created with id ${res}`);
+          callback(null, res);
+        })
+        .catch(err => {
+          console.log(err);
+          callback(err,null);
+        })
+      },
+      function(callback){
+        createFlow(flowOptions).then(res => {
+          console.log(`New Flow created with id ${res}`);
+          callback(null, res);
+        })
+        .catch(err => {
+          console.log(err);
+          callback(err,null);
+        })
+      },
+      
+    ] , (err, res) => {
+      if(err){
+        return reject(err);
+      };
+      
+      // console.log(res);
+      console.log(connection_data, "i am details");
+      resolve(integrationInfo);
+    })
+
+  })
+
+  
+
+
+
+}
+
+
+
+
+
+
 
 
 

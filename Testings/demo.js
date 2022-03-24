@@ -17,74 +17,97 @@ exports.addPromise = (a,b) => {
 
 
 
+// context('check github connection' , ()=> {
+//     it('should check github connection' , (done)=> {
+//         index.createGithubExportConnection('').then(result=> {
+             
+//             console.log( `github export connection created with ${result}`);
+//             expect(result).to.be.a('string');
+//             done();
+//         }).catch(err => {
+//             console.log('error caught');
+//             done(err);
+//         })
 
-// async.series([
-//   function(callback){
-//     createGithubExportConnection(githubExportConnectionOptions).then(res => {
-//       console.log(`github export connection created with id ${res}`);
-//       callback(null, res);
 //     })
-//     .catch(err => {
-//       console.log(err);
-//       callback(err,null);
-//     })
-//   },
-//   function(callback){
-//     createFTPImportConnection(ftpImportConnectionOptions).then(res => {
-//       console.log(`FTP IMPORT connection created with id ${res}`);
-//       callback(null, res);
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       callback(err,null);
-//     })
-//   },
-//   function(callback){
-//     createGithubExport(githubExportOptions).then(res => {
-//       console.log(`github export created with id ${res}`);
-//       callback(null, res);
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       callback(err,null);
-//     })
-//   },
-//   function(callback){
-//     createFTPImport(FTPImportOptions).then(res => {
-//       console.log(`FTP IMPORT created with id ${res}`);
-//       callback(null, res);
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       callback(err,null);
-//     })
-//   },
-//   function(callback){
-//     createIntegration(createIntegrationOptions).then(res => {
-//       console.log(`New Integration created with id ${res}`);
-//       callback(null, res);
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       callback(err,null);
-//     })
-//   },
-//   function(callback){
-//     createFlow(flowOptions).then(res => {
-//       console.log(`New Flow created with id ${res}`);
-//       callback(null, res);
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       callback(err,null);
-//     })
-//   },
-  
-// ] , (err, res) => {
-//   if(err){
-//     console.log("some error occcured");
-//   };
-//   console.log(res);
-//   console.log(connection_data, "i am details");
 // })
+
+// context('check FTP connection' , ()=> {
+//     it('should check FTP connection' , (done)=> {
+//         index.createFTPImportConnection('').then(result=> {
+             
+//             console.log( `FTP import conection created with ${result}`);
+//             expect(result).to.be.a('string');
+//             done();
+//         }).catch(err => {
+//             console.log('error caught');
+//             done(err);
+//         })
+
+//     })
+// })
+
+
+// context('create a github export' , ()=> {
+//     it('should check the github export' , (done)=> {
+//         index.createGithubExport('').then(result=> {
+             
+//             console.log( `github export created with ${result}`);
+//             expect(result).to.be.a('string');
+//             done();
+//         }).catch(err => {
+//             console.log('error caught');
+//             done(err);
+//         })
+
+//     })
+// })
+
+// context('create a FTP import' , ()=> {
+//     it('should check the FTP import' , (done)=> {
+//         index.createFTPImport('').then(result=> {
+             
+//             console.log( `ftp import created with ${result}`);
+//             expect(result).to.be.a('string');
+//             done();
+//         }).catch(err => {
+//             console.log('error caught');
+//             done(err);
+//         })
+
+//     })
+// })
+
+// context('create an Integration' , ()=> {
+//     it('should check the Integration' , (done)=> {
+//         index.createIntegration('').then(result=> {
+             
+//             console.log( `Integration created with ${result}`);
+//             expect(result).to.be.a('string');
+//             done();
+//         }).catch(err => {
+//             console.log('error caught');
+//             done(err);
+//         })
+
+//     })
+// })
+
+
+// context('create a Flow' , ()=> {
+//     it('should check the Flow' , (done)=> {
+//         index.createFlow('').then(result=> {
+             
+//             console.log( `Flow created with ${result}`);
+//             expect(result).to.be.a('string');
+//             done();
+//         }).catch(err => {
+//             console.log('error caught');
+//             done(err);
+//         })
+
+//     })
+// })
+
+
 
